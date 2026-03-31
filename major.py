@@ -1,23 +1,24 @@
 import streamlit as st
 import pandas as pd
-
-# 페이지 설정
-st.set_page_config(page_title="학과 검색 시스템", layout="centered")
+import os
 
 @st.cache_data
 def load_data():
-    # 1. CSV 파일 읽기 (파일명과 경로가 정확해야 합니다)
+    # 1. 현재 파이썬 파일(.py)이 있는 폴더 경로를 구합니다.
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    
+    # 2. 그 폴더 안에 있는 csv 파일의 절대 경로를 만듭니다.
+    file_path = os.path.join(current_dir, 'worknet_major_master.csv')
+    
     try:
-        df = pd.read_csv('worknet_major_master.csv')
+        # 깃허브에 올릴 때 UTF-8로 저장했다면 'utf-8-sig'가 가장 안전합니다.
+        df = pd.read_csv(file_path, encoding='utf-8-sig')
         
-        # 2. '세부학과명' 컬럼 데이터만 추출
-        # 결측치(NaN) 제거 및 중복 제거 후 가나다순 정렬
         major_list = df['세부학과명'].dropna().unique().tolist()
         major_list.sort()
-        
         return major_list
     except FileNotFoundError:
-        st.error("파일을 찾을 수 없습니다. 'worknet_major_master.csv' 파일이 같은 폴더에 있는지 확인해주세요.")
+        st.error(f"파일을 찾을 수 없습니다. 경로를 확인해주세요: {file_path}")
         return []
 
 # 데이터 로드
