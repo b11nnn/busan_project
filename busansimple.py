@@ -641,61 +641,58 @@ def render_job_card(rank, job_row, score_detail):
     tags_html  = "".join(f'<span class="tag">{t}</span>' for t in skill_tags)
     cert_html  = "".join(f'<span class="tag tag-warn">{c}</span>' for c in cert_tags)
 
-    st.markdown(f"""
-    <div class="job-card">
-        <div class="job-card-accent"></div>
-        <div class="job-rank-badge">#{rank}</div>
-        <div class="job-title" style="padding-right:60px">{job_name}</div>
-        <div class="job-cat">{job_big} &gt; {job_mid}</div>
-        <p style="font-size:0.82rem;color:#5D6D7E;margin:0 0 0.8rem;">{summary}</p>
-
-        <div class="score-grid">
-            <div>
-                <div class="score-label">📚 전공 매칭 (30점)</div>
-                <div class="score-bar-bg"><div class="score-bar-fill" style="width:{sm/30*100:.0f}%"></div></div>
-                <div class="score-val">{sm:.1f}점</div>
-            </div>
-            <div>
-                <div class="score-label">🧠 번아웃 부합도 (30점)</div>
-                <div class="score-bar-bg"><div class="score-bar-fill" style="width:{sb/30*100:.0f}%"></div></div>
-                <div class="score-val">{sb:.1f}점</div>
-            </div>
-            <div>
-                <div class="score-label">🏢 근무환경 (20점)</div>
-                <div class="score-bar-bg"><div class="score-bar-fill" style="width:{se/20*100:.0f}%"></div></div>
-                <div class="score-val">{se:.1f}점</div>
-            </div>
-            <div>
-                <div class="score-label">💡 가치관 가중치 (20점)</div>
-                <div class="score-bar-bg"><div class="score-bar-fill" style="width:{sv/20*100:.0f}%"></div></div>
-                <div class="score-val">{sv:.1f}점</div>
-            </div>
-        </div>
-
-        <div class="total-score-row">
-            <span class="total-score-label">🎯 종합 추천 점수</span>
-            <span class="total-score-val">{total:.1f}<span style="font-size:0.8rem;font-weight:400;color:#8FA0B0"> / 100</span></span>
-        </div>
-
-        <div class="job-meta">
-            <div class="job-meta-item">
-                <div class="job-meta-val">{wage}</div>
-                <div class="job-meta-key">평균 임금</div>
-            </div>
-            <div class="job-meta-item">
-                <div class="job-meta-val">{float(sat):.0f}%</div>
-                <div class="job-meta-key">직업만족도</div>
-            </div>
-            <div class="job-meta-item">
-                <div class="job-meta-val">{prospect_icon} {prospect}</div>
-                <div class="job-meta-key">일자리 전망</div>
-            </div>
-        </div>
-
-        <div class="tags-wrap">{tags_html}{cert_html}</div>
-    </div>
-    """, unsafe_allow_html=True)
-
+    # 💥 수정된 부분: HTML 코드를 왼쪽으로 바짝 붙여서 마크다운 코드 블록 인식을 방지합니다.
+    html_content = f"""
+<div class="job-card">
+<div class="job-card-accent"></div>
+<div class="job-rank-badge">#{rank}</div>
+<div class="job-title" style="padding-right:60px">{job_name}</div>
+<div class="job-cat">{job_big} &gt; {job_mid}</div>
+<p style="font-size:0.82rem;color:#5D6D7E;margin:0 0 0.8rem;">{summary}</p>
+<div class="score-grid">
+<div>
+<div class="score-label">📚 전공 매칭 (30점)</div>
+<div class="score-bar-bg"><div class="score-bar-fill" style="width:{sm/30*100:.0f}%"></div></div>
+<div class="score-val">{sm:.1f}점</div>
+</div>
+<div>
+<div class="score-label">🧠 번아웃 부합도 (30점)</div>
+<div class="score-bar-bg"><div class="score-bar-fill" style="width:{sb/30*100:.0f}%"></div></div>
+<div class="score-val">{sb:.1f}점</div>
+</div>
+<div>
+<div class="score-label">🏢 근무환경 (20점)</div>
+<div class="score-bar-bg"><div class="score-bar-fill" style="width:{se/20*100:.0f}%"></div></div>
+<div class="score-val">{se:.1f}점</div>
+</div>
+<div>
+<div class="score-label">💡 가치관 가중치 (20점)</div>
+<div class="score-bar-bg"><div class="score-bar-fill" style="width:{sv/20*100:.0f}%"></div></div>
+<div class="score-val">{sv:.1f}점</div>
+</div>
+</div>
+<div class="total-score-row">
+<span class="total-score-label">🎯 종합 추천 점수</span>
+<span class="total-score-val">{total:.1f}<span style="font-size:0.8rem;font-weight:400;color:#8FA0B0"> / 100</span></span>
+</div>
+<div class="job-meta">
+<div class="job-meta-item">
+<div class="job-meta-val">{wage}</div>
+<div class="job-meta-key">평균 임금</div>
+</div>
+<div class="job-meta-item">
+<div class="job-meta-val">{float(sat):.0f}%</div>
+<div class="job-meta-key">직업만족도</div>
+</div>
+<div class="job-meta-item">
+<div class="job-meta-val">{prospect_icon} {prospect}</div>
+<div class="job-meta-key">일자리 전망</div>
+</div>
+</div>
+<div class="tags-wrap">{tags_html}{cert_html}</div>
+</div>
+"""
+    st.markdown(html_content, unsafe_allow_html=True)
 
 def render_company_card(rank, comp_row):
     name     = str(comp_row.get("기업명", "-"))
